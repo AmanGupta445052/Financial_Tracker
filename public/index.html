@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Personal Finance Tracker</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Personal Finance Tracker</h1>
+        <div class="dashboard">
+            <div class="summary">
+                <h2>Dashboard</h2>
+                <p>Total Income: <span id="total-income">$0.00</span></p>
+                <p>Total Expenses: <span id="total-expense">$0.00</span></p>
+                <p>Current Balance: <span id="current-balance">$0.00</span></p>
+            </div>
+            <div class="charts">
+                <canvas id="incomeExpenseChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
