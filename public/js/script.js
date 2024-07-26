@@ -1,6 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
     fetch('/api/summary')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             document.getElementById('total-income').textContent = `$${data.total_income.toFixed(2)}`;
             document.getElementById('total-expense').textContent = `$${data.total_expense.toFixed(2)}`;
@@ -29,5 +34,8 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .catch(error => {
             console.error('Error fetching summary:', error);
+            response.text().then(text => {
+                console.error('Response text:', text);
+            });
         });
 });
