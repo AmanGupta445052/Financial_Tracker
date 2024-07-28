@@ -1,37 +1,37 @@
 -- Creating the database if it does not already exist
-CREATE DATABASE IF NOT EXISTS financial_Tracker;
+CREATE DATABASE  financial_Tracker;
 -- Switching to the newly created or existing database
 USE Financial_Tracker;
 
 -- Creating the Users table
-CREATE TABLE IF NOT EXISTS Users (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE Users (
+    user_id INT IDENTITY(1,1) PRIMARY KEY,
     name VARCHAR(100),
     email VARCHAR(100) UNIQUE,
     password VARCHAR(100)
 );
 
 -- Creating the Categories table
-CREATE TABLE IF NOT EXISTS Categories(
-    category_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE  Categories(
+    category_id INT IDENTITY(1,1) PRIMARY KEY,
     category_name VARCHAR(100)
 );
 
 -- Creating the Transactions table
-CREATE TABLE IF NOT EXISTS Transactions (
-    transaction_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE  Transactions (
+    transaction_id INT IDENTITY(1,1) PRIMARY KEY,
     user_id INT,
     date DATE,
     amount DECIMAL(10, 2),
     category_id INT,
-    type ENUM('income', 'expense'),
+    type VARCHAR(10) CHECK (type IN ('income', 'expense')),
     FOREIGN KEY (user_id) REFERENCES Users(user_id),
     FOREIGN KEY (category_id) REFERENCES Categories(category_id)
 );
 
 -- Creating the Budgets table
-CREATE TABLE IF NOT EXISTS Budgets (
-    budget_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE  Budgets (
+    budget_id INT  IDENTITY(1,1) PRIMARY KEY,
     user_id INT,
     category_id INT,
     amount DECIMAL(10, 2),
@@ -42,8 +42,8 @@ CREATE TABLE IF NOT EXISTS Budgets (
 );
 
 -- Creating the Goals table
-CREATE TABLE IF NOT EXISTS Goals (
-    goal_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE  Goals (
+    goal_id INT  IDENTITY(1,1) PRIMARY KEY,
     user_id INT,
     goal_description VARCHAR(255),
     target_amount DECIMAL(10, 2),

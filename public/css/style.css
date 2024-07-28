@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #6EACDA;
     margin: 0;
     padding: 0;
 }
@@ -12,18 +12,18 @@ body {
 
 h1 {
     text-align: center;
-    margin: 20px 0;
+    margin: 40px 0;
 }
 
 .dashboard {
     display: flex;
     justify-content: space-around;
-    margin: 20px 0;
+    margin: 140px 0;
 }
 
 .summary {
     width: 30%;
-    background: #fff;
+    background: #E2E2B6;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
