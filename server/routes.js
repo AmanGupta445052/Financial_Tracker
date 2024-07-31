@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('./db');
+const db = require('./db'); // Ensure this path is correct
 
 // Get summary data for dashboard
 router.get('/summary', (req, res) => {
@@ -21,6 +21,5 @@ router.get('/summary', (req, res) => {
     });
 });
 
-// Other routes for transactions, budgets, goals, etc.
-
+// Export router
 module.exports = router;

@@ -1,15 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const routes = require('./routes');
-require('dotenv').config(); // Load environment variables
+const routes = require('./routes'); // Ensure this path is correct
+require('dotenv').config();
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(express.static('public')); // Serve static files from public folder
 
-app.use('/api', routes);
+app.use('/api', routes); // Use routes defined in router.js
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
