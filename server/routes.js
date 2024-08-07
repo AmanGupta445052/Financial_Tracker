@@ -1,25 +1,36 @@
 const express = require('express');
 const router = express.Router();
-const db = require('./db'); // Ensure this path is correct
+const connectToDatabase = require('./mongoClient'); // Ensure this path is correct
 
 // Get summary data for dashboard
-router.get('/summary', (req, res) => {
-    const userId = 1; // Change as needed
-    const query = `
-        SELECT 
-            (SELECT SUM(amount) FROM Transactions WHERE user_id = ? AND type = 'income') AS total_income,
-            (SELECT SUM(amount) FROM Transactions WHERE user_id = ? AND type = 'expense') AS total_expense
-    `;
-    db.query(query, [userId, userId], (err, results) => {
-        if (err) {
-            return res.status(500).send(err);
-        }
-        const total_income = results[0].total_income || 0;
-        const total_expense = results[0].total_expense || 0;
-        const current_balance = total_income - total_expense;
-        res.json({ total_income, total_expense, current_balance });
-    });
+router.get('/summary', async (req, res) => {
+  try {
+    const db = await connectToDatabase();
+
+    // Fetch data from MongoDB
+    const usersCollection = db.collection('Users');
+    const transactionsCollection = db.collection('Transactions');
+
+    // Example queries
+    const totalIncome = await transactionsCollection.aggregate([
+      { $match: { type: 'income' } },
+      { $group: { _id: null, total: { $sum: '$amount' } } }
+    ]).toArray();
+
+    const totalExpense = await transactionsCollection.aggregate([
+      { $match: { type: 'expense' } },
+      { $group: { _id: null, total: { $sum: '$amount' } } }
+    ]).toArray();
+
+    const totalIncomeAmount = totalIncome.length ? totalIncome[0].total : 0;
+    const totalExpenseAmount = totalExpense.length ? totalExpense[0].total : 0;
+    const currentBalance = totalIncomeAmount - totalExpenseAmount;
+
+    res.json({ total_income: totalIncomeAmount, total_expense: totalExpenseAmount, current_balance: currentBalance });
+  } catch (err) {
+    console.error('Error fetching summary:', err);
+    res.status(500).send(err);
+  }
 });
 
-// Export router
 module.exports = router;
